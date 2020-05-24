@@ -5,12 +5,12 @@ using namespace std;
 map<string, vector<string> > edges;
 map<string, string> parent;
 
-void printRoute(string s, string d)
-{
-    if(d == s) return;
-    printRoute(s, parent[d]);
-    cout << parent[d] << " " << d << "\n";
-}
+// void printRoute(string s, string d)
+// {
+//     if(d == s) return;
+//     printRoute(s, parent[d]);
+//     cout << parent[d] << " " << d << "\n";
+// }
 
 void bfs(string s, string d)
 {
@@ -32,7 +32,16 @@ void bfs(string s, string d)
     }
     
     if(edges.count(d) == 0 || parent[d] == "-1") cout << "No route\n";
-    else printRoute(s, d);
+//     else printRoute(s, d);
+    else {
+        vector<string> ans;
+        ans.push_back(d);
+        while(parent[d] != d){
+            ans.push_back(parent[d]);
+            d = parent[d];
+        }
+        for(int i = ans.size() - 1; i > 0; i--) cout << ans[i] << " " << ans[i-1] << "\n";
+    }
 
 }
 
