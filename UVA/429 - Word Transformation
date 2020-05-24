@@ -1,0 +1,76 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+bool differ(string from, string to)
+{
+    int total = 0;
+    for(int i = 0; i < to.size() && total < 2; i++) if(from[i] != to[i]) total++;
+    if(total == 1) return true;
+    else return false;
+}
+
+void bfs(vector<string> g, string s, string d)
+{
+    map<string, int> dis;
+    for(int i = 0; i < g.size(); i++) dis[g[i]] = -1;
+
+    dis[s] = 0;
+    queue<string> q;
+    q.push(s);
+
+    while(!q.empty()){
+        string u = q.front(); q.pop();
+        if(u == d) break;
+        for(int i = 0; i < g.size(); i++){
+            string v = g[i];
+            if(dis[v] == -1 && differ(u, v)){
+                dis[v] = dis[u] + 1;
+                q.push(v);
+            }
+        }
+    }
+
+    cout << dis[d] << "\n";
+
+
+}
+
+void solve()
+{
+    int tt; cin >> tt;
+    bool newLine = false;
+    while(tt--){
+        if(newLine) cout << "\n";
+        newLine = true;
+        map<int, vector<string> > edges;
+        string node;
+        while(cin >> node && node != "*"){
+            edges[node.size()].push_back(node);
+        }
+        cin.ignore();
+        string from, to;
+        string line;
+        while(getline(cin, line) && line != ""){
+            stringstream ss(line);
+            ss >> from >> to;
+            cout << from << " " << to << " ";
+            bfs(edges[from.size()], from, to);
+        }
+        
+    }
+}
+//new line is printed in the main
+
+int main()
+{
+    int t = 1;
+        //cin >> t; // comment out if no test case is required
+    int i = 1;
+    while(t--){
+        //cout << "Case " << i++ << ": ";
+        solve();
+        // cout << "\n";
+    }
+    return 0; 
+}
